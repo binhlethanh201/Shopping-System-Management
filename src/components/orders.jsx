@@ -9,12 +9,17 @@ function Order(){
         .then(response => response.json())
         .then(result => setOrder(result))
         .catch(error => console.error(error))
-    },[])
+    },[]);
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB'); 
+    };
     return(
         <Container>
                 <Row><h1>Order History</h1></Row>
                 <Row>
-                    <Table>
+                    <Table hover bordered>
                         <thead>
                             <tr>
                                 <th>OrderId</th>
@@ -24,15 +29,26 @@ function Order(){
                                 <th>TotalPrice ($)</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody >
                             {
                                 order?.map(o => (
                                     <tr key={o?.id}>
                                     <td>{o?.id}</td>
-                                    <td>{o?.orderDate}</td>
+                                    <td>{formatDate(o?.orderDate)}</td>
                                     <td>{o?.shipAddress}</td>
-                                    <td>{o?.products}</td>
-                                    <td>price</td>
+                                    <td><ul>
+                                            {
+                                                o?.products?.map((p, index) => (
+                                                    <ol key={index}>
+                                                            {p.id} {p.name} {p.price} {p.quantity}
+                                                    </ol>
+                                                ))
+                                            }
+                                        </ul>
+                                        </td>
+                                    <td>
+                                        {o?.products?.reduce((total,p) => total + p.price*p.quantity, 0).toFixed(2)}
+                                    </td>
                                 </tr>
                                 ))
                             }

@@ -62,7 +62,7 @@ function Product() {
                     {product.length === 0 ? (
                         <p>No Product</p>
                     ) : (
-                        <Table className='table table-hover table-striped table-bordered'>
+                        <Table bordered hover striped>
                             <thead>
                                 <tr>
                                     <th>Title</th>
@@ -80,7 +80,7 @@ function Product() {
                                         <td>${p.price}</td>
                                         <td>{p.avgRating}</td>
                                         <td>
-                                            <Button className='btn btn-primary'>Add To Cart</Button>
+                                            <Button variant='btn btn-primary'>Add To Cart</Button>
                                         </td>
                                     </tr>
                                 ))}
@@ -113,7 +113,7 @@ function Product() {
                                                 <td>${item.price}</td>
                                                 <td>{item.quantity}</td>
                                                 <td>
-                                                    <Button className='btn btn-danger'>Remove</Button>
+                                                    <Button variant='btn btn-danger'>Remove</Button>
                                                 </td>
                                             </tr>
                                         ))}
