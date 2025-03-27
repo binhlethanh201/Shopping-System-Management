@@ -19,7 +19,7 @@ function Order(){
         <Container>
                 <Row><h1>Order History</h1></Row>
                 <Row>
-                    <Table hover bordered>
+                    <Table hover bordered striped>
                         <thead>
                             <tr>
                                 <th>OrderId</th>
