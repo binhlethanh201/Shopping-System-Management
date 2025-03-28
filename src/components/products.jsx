@@ -7,6 +7,7 @@ function Product() {
     const [selectedCatId, setSelectedCatId] = useState(0);
     const [categories, setCategories] = useState([]);
     const [cart, setCart] = useState([]);
+    const [msgCart, setMsgCart] = useState(null);
 
     useEffect(() => {
         fetch(`http://localhost:9999/products`)
@@ -36,6 +37,56 @@ function Product() {
         });
     };
 
+    function checkInput(){
+        if(cart?.length === 0){
+                setMsgCart("Your Cart is Empty!");
+                return false;
+        }
+        setMsgCart("");
+        return true;
+    }
+
+    function handleAddCart(e){
+        e.preventDefault();
+        if(checkInput()){
+            const cartData = {
+                id: Date.now().toString(),
+                orderDate: Date.now().toString(),
+                product: cart.map((item) => ({
+                    id: item.id,
+                    name: item.title,
+                    price: item.price,
+                    quantity: item.quantity,
+                })),
+                shipAddress: [],
+            };
+            fetch(`http://localhost:9999/orders`,{
+                method: "POST",
+                body: JSON.stringify({cart: [cartData]}),
+                headers: {"Content-Type": "application/json"},
+            })
+                .then(() => {
+                    alert("Thank you for your order!");
+                    alert("Your order has been placed successfully");
+                    setCart([]);
+                })
+                .catch((error) => console.error("Error saving cart: ", error));
+        }
+    };
+    const addToCart = (product) => {
+        const existingProduct = cart?.find((item) => item.id === product.id);
+        if(existingProduct){
+            setCart(
+                cart.map((item) => 
+                item.id === product.id
+                    ? { ...item, quantity: item.quantity + 1}
+                     :item
+                    )
+            );
+        } else {
+            setCart([...cart, { ...product, quantity : 1}]);
+        }
+    };
     return (
         <Container>
             <Row style={{ marginBottom: '40px' }}>
@@ -80,7 +131,7 @@ function Product() {
                                         <td>${p.price}</td>
                                         <td>{p.avgRating}</td>
                                         <td>
-                                            <Button variant='btn btn-primary'>Add To Cart</Button>
+                                            <Button variant='btn btn-primary' onClick={() => addToCart(p)}>Add To Cart</Button>
                                         </td>
                                     </tr>
                                 ))}
@@ -92,10 +143,9 @@ function Product() {
                     <Card>
                         <Card.Body>
                             <Card.Title>Cart</Card.Title>
-                            {cart.length === 0 ? (
-                                <Card.Text>Your Cart is Empty!</Card.Text>
-                            ) : (
-                                <Table>
+                            { cart.length > 0 ? (
+                                <>
+                                 <Table>
                                     <thead>
                                         <tr>
                                             <th>Id</th>
@@ -119,7 +169,18 @@ function Product() {
                                         ))}
                                     </tbody>
                                 </Table>
+                                <div>
+                                    Ship Address: <input/>
+                                    <Button variant='btn btn-warning' onClick={handleAddCart}>Place Order</Button>
+                                </div>
+                              </>
+                            ): (
+                                <Card.Text>Your Cart is Empty!</Card.Text>
                             )}
+                            {
+                                msgCart && <p style={{color: 'green'}}>{msgCart}</p>
+                            }
+                            
                         </Card.Body>
                     </Card>
                 </Col>
