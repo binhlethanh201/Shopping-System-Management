@@ -62,7 +62,7 @@ function Product() {
     if (checkInput()) {
       const cartData = {
         id: Date.now().toString(),
-        orderDate: new Date().toISOString(), 
+        orderDate: new Date().toISOString(),
         products: cart.map((item) => ({
           id: item.id,
           name: item.title,
@@ -71,10 +71,10 @@ function Product() {
         })),
         shipAddress: shipAddress.trim(),
       };
-  
+
       fetch(`http://localhost:9999/orders`, {
         method: "POST",
-        body: JSON.stringify(cartData), 
+        body: JSON.stringify(cartData),
         headers: { "Content-Type": "application/json" },
       })
         .then(() => {
@@ -82,15 +82,19 @@ function Product() {
           setShipAddress("");
           setMsgCart(
             <div>
-              <h2 style={{color: 'green', fontWeight: 'bold'}}>Thank you for your order!</h2>
-              <p style={{color: 'green'}}>Your order has been placed successfully.</p>
+              <h2 style={{ color: "green", fontWeight: "bold" }}>
+                Thank you for your order!
+              </h2>
+              <p style={{ color: "green" }}>
+                Your order has been placed successfully.
+              </p>
             </div>
           );
         })
         .catch((error) => console.error("Error saving cart: ", error));
     }
   }
-  
+
   const addToCart = (product) => {
     const existingProduct = cart?.find((item) => item.id === product.id);
     if (existingProduct) {
@@ -174,7 +178,7 @@ function Product() {
           )}
         </Col>
         <Col md={4}>
-          <Card style={{width: '25rem', height: '29rem'}}>
+          <Card style={{ width: "25rem", height: "29rem" }}>
             <Card.Body style={{ flexGrow: 1 }}>
               <Card.Title>Cart</Card.Title>
               {cart.length > 0 ? (
@@ -208,14 +212,41 @@ function Product() {
                       ))}
                     </tbody>
                   </Table>
-                  <div style={{ marginTop: "auto" }}>
+                  <div
+                    style={{
+                      marginTop: "auto",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start", 
+                      width: "100%",
+                    }}
+                  >
+                    <p style={{ fontWeight: "bold" }}>Ship Address</p>
+
                     <input
                       type="text"
-                      placeholder="Enter Shipping Address"
                       value={shipAddress}
                       onChange={(e) => setShipAddress(e.target.value)}
+                      style={{
+                        width: "100%",
+                        height: "100px",
+                        fontSize: "16px",
+                        padding: "10px",
+                        marginBottom: "10px",
+                        borderRadius: "5px",
+                        border: "1px solid #ccc",
+                      }}
                     />
-                    <Button variant="btn btn-warning" onClick={handleAddCart}>
+
+                    <Button
+                      variant="btn btn-warning"
+                      onClick={handleAddCart}
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        alignSelf: "flex-end", 
+                      }}
+                    >
                       Place Order
                     </Button>
                   </div>
