@@ -28,7 +28,7 @@ function Order() {
               <th>OrderDate</th>
               <th>ShipAddress</th>
               <th>ProductList</th>
-              <th>TotalPrice ($)</th>
+              <th>TotalPrice($)</th>
             </tr>
           </thead>
           <tbody>
