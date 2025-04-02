@@ -60,7 +60,8 @@ function Order() {
             ))}
           </tbody>
         </Table>
-        <></>
+        <div>
+          </div>
       </Row>
     </Container>
   );
