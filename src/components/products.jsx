@@ -259,8 +259,7 @@ function Product() {
           </Card>
         </Col>
       </Row>
-      <div>
-        </div>
+     
     </Container>
   );
 }
