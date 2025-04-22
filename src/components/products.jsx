@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Card } from "react-bootstrap";
+ import { Container, Row, Col, Table, Button, Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
 function Product() {
@@ -259,7 +259,7 @@ function Product() {
           </Card>
         </Col>
       </Row>
-     
+      <div> </div>
     </Container>
   );
 }
